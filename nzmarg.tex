@@ -115,7 +115,7 @@ We model the redshift distribution of each tomographic bin $\alpha$ as a 'comb',
 \eq{
 p^{(\alpha)}(z) = \sum_{i=1}^{N_z} A_i^\alpha\; {\cal K}\br{z; z_i, \sigma_{\rm comb}^2}\;,
 }
-where the only free parameters to be fitted are the amplitudes $A_i^\alpha$. We choose to model the normalised 'teeth' of the comb as
+where the only free parameters to be fitted are the amplitudes $A_i^\alpha$. The model is linear in the amplitudes, which will allow us to apply an analytic marginalisation over nuisance parameters when sampling the weak lensing likelihood. We choose to model the normalised 'teeth' of the comb as
 \eq{
 {\cal K} \br{z; z_i, \sigma_{\rm comb}^2} = \frac{z}{N(z_i, \sigma_{\rm comb})}\, \exp \bc{- \frac{(z-z_i)^2}{2 \sigma_{\rm comb}^2} }\;, 
 }
@@ -141,7 +141,7 @@ as the actual fit parameters. The final result of the redshift calibration proce
 \eq{
 \pr \br{ \bc{a_i^\alpha} | \boldsymbol{d}_{\rm cal}} \approx {\cal N}\br{ a_i^\alpha; {a^*}_i^\alpha, \tens{\Sigma}_{\rm cal}}\;,
 }
-where the posterior is approximated by a multivariate Gaussian with best-fit ${a^*}_i^\alpha$ and covariance $\tens{\Sigma}_{\rm cal}$.
+where the posterior is approximated by a multivariate Gaussian distribution with best-fit ${a^*}_i^\alpha$ and covariance $\tens{\Sigma}_{\rm cal}$.
 
 %By resampling $\boldsymbol{d}_{\rm cal}$ using the full covariance matrix of the five tomographic bins and refitting the amplitudes of the gaussians we infer the covariance matrix $\tens{\Sigma}_{\rm cal}$ for the amplitudes.
 
@@ -167,7 +167,7 @@ X_l^{(\alpha \beta)} &= \int_0^\infty \frac{\dd \ell\, \ell}{2 \pi}\, K_l(\ell)\
 \label{eq:obs}
 }
 Again, since the transformation is linear, we can capture the two-point statistic for Gaussian components at $z_i$ and $z_j$ in the quantity $c_{ij}$.
-In particular, we are interested in the 2-point shear correlation function, which is the primary observable in the fiducial KV450 cosmic shear analysis. The 2-point shear correlation function between two tomographic bins can be modelled with spherical Bessel functions of the first kind $J_{0/4}(\ell)$ as the kernel. We find
+We are particularly interested in the 2-point shear correlation function, which is the primary observable in the fiducial KV450 cosmic shear analysis. The 2-point shear correlation function between two tomographic bins can be modelled with spherical Bessel functions of the first kind $J_{0/4}(\ell)$ as the kernel. We find
 \eqa{
 \xi_\pm^{ij}(\theta) &= \int_0^\infty \frac{\dd \ell\, \ell}{2 \pi}\,J _{0/4}(\ell \theta)\, C^{(\alpha \beta)}(\ell)\\ \nn
 &\equiv \sum_{i,j=1}^{N_z} A_i^\alpha A_j^\beta\; c_{ij,l}\;.
@@ -248,7 +248,7 @@ If the calibration data best-fit coincides with the maximum of the weak lensing 
 We can discount an even cruder approximation that also ignores the slope of the weak lensing likelihood and assumes ${\cal L}$ is constant over the allowed range of the nuisance parameters. This would imply ${\cal L}_{\rm marg} \approx {\cal L}_{\rm fid}$, which is equivalent to assuming that the calibration procedure has constrained the redshift nuisance parameters so tightly relative to the width of the weak lensing likelihood that the statistical uncertainty of the calibration procedure becomes negligible.
 \section{Redshift distribution calibration}
 \label{sec:calibration}
-We calibrate the redshift distribution by fitting the model defined in Sect. \ref{sec:comb} to the redshift distribution histogram of \cite{hildebrandt18}. The fiducial KV450 weak lensing likelihood contains nuisance parameters $\delta z_i$, which linearly shift the mean redshift of each tomographic bin. When sampling the likelihood this then leads to a self-calibration of the redshift distribution with cosmic shear data. In our analysis these shifts get replaced by the amplitudes of the comb components, which gives the model more flexibility to match the true redshift distribution. Given the dimensionality of the new nuisance parameter space, a sampling of nuisance parameters in an MCMC becomes computationally expensive. Thus, we marginalise analytically over the uncertainties on the fitted amplitudes. By doing so, we however loose the ability to calibrate the redshift distribution with cosmic shear data since the amplitudes no longer appear as free parameters in the likelihood. In order to retain the calibration of the redshift distribution with cosmic shear data we perform an additional calibration step.
+We calibrate the redshift distribution by fitting the model defined in Sect. \ref{sec:comb} to the redshift distribution histogram of \cite{hildebrandt18}. The fiducial KV450 weak lensing likelihood is conditioned on five nuisance parameters $\delta z_i$, which linearly shift the mean redshift of each tomographic bin. When sampling the likelihood this then leads to a self-calibration of the redshift distribution with cosmic shear data. In our analysis these shifts get replaced by the amplitudes of the comb components, which gives the model more flexibility to match the true redshift distribution. Given the dimensionality of the new nuisance parameter space, a sampling of nuisance parameters in an MCMC becomes computationally expensive. Thus, we marginalise analytically over the uncertainties on the fitted amplitudes. By doing so, we however loose the ability to calibrate the redshift distribution with cosmic shear data since the amplitudes no longer appear as free parameters in the likelihood. In order to retain the calibration of the redshift distribution with cosmic shear data we perform an additional calibration step.
 
 Our goal is to find the best-fit in the combined parameter space of cosmological and nuisance parameters. Given the high dimensionality of the nuisance parameter space we adopt an iterative method:
 
@@ -268,11 +268,10 @@ Fixing the cosmological parameters to the ones found in step 2), we use Newton's
 
 By iterating over steps 2 and 3 both cosmological and nuisance parameters eventually converge to the global best-fit values. The best-fit nuisance parameters then represent the redshift distributions of each tomographic bin, calibrated using both spectroscopic catalogues and the actual cosmic shear data. The iterative fitting procedure is illustrated in Fig. \ref{fig:iterative_calibration}. After the calibration the redshift distributions we proceed with sampling of the likelihood in cosmological parameter space while marginalising over nuisance parameters.
 \begin{figure}
-\label{fig:iterative_calibration}
 \centering
 \includegraphics[scale=0.4]{plots/iterative.png}
-\caption{Sketch of the iterative fitting method that is used to find the best-fit in the combined parameter space of cosmological and nuisance parameters. We alternate between optimising cosmological parameters keeping nuisance parameters fixed using a non-linear optimiser and optimising nuisance parameters using Newton's method keeping cosmological parameters fixed. After several iterations we achieve convergence to the best-fit in the combined parameter space.}
-\label{fig:comb}
+\caption{Sketch of the iterative fitting method used to determine the best-fit in the combined parameter space of cosmological and nuisance parameters. We alternate between optimising cosmological parameters keeping nuisance parameters fixed using a non-linear optimiser and optimising nuisance parameters using Newton's method keeping cosmological parameters fixed. After several iterations we achieve convergence to the best-fit in the combined parameter space.}
+\label{fig:iterative_calibration}
 \end{figure}
 \section{Results}
 \label{sec:results}
@@ -281,17 +280,18 @@ By iterating over steps 2 and 3 both cosmological and nuisance parameters eventu
 The first step in the calibration of the KV450 redshift distribution is to fit our modified gaussian mixture model to the redshift histograms of \cite{hildebrandt18}. This fit is done simultaneously for all five tomographic redshift bins in order to account for the correlations between bins. When deriving a histogram that models the redshift distribution of galaxies in a given tomographic bin, the width of the histogram bins is a free parameter. In the fiducial analysis this bin width is set to $\Delta z = 0.05$.  To test the sensitivity of the calibration to the choice of bin width of the input data histograms, we additionally perform the calibration using a set of data histograms with a bin width of $\Delta z = 0.025$.  Since these histograms trace the same underlying redshift distribution of galaxies in each tomographic bin, the distribution inferred by fitting the comb model should not depend on the choice of binning of the input data. However, it is still to insightful to compare the fit results from these two types of input data histograms in order to test to what extent the redshift distribution calibration is affected by noise. Moreover, we are free to choose the number of gaussian components of the redshift distribution model and the variance of the components. In Appendix \ref{ap:calibration} we perform several tests, comparing different choices for the aforementioned free parameters and address their impact on the cosmological analysis. In this section we report our fiducial result using a model with $N = Y$ components and a variance of $\sigma_{\rm comb} = Y$. 
 \begin{figure*}
 \centering
-\includegraphics[width=\linewidth]{plots/combfit_linear.pdf}
-\caption{Fit results of a gaussian mixture with N components to the N(z) distribution in 5 tomographic redshift bins. Data is shown in blue and the resulting fit is shown in orange with shaded region indicating the 1$\sigma$ confidence interval. {\color{red} This is a redshift distribution before iterative optimisation. Need a plot after iterative optimisation. And probably put the covariance matrix next to it}}
+\includegraphics[width=\linewidth]{plots/optimisation_result.png}
+\caption{Fit results of a gaussian mixture with N components to the N(z) distribution in 5 tomographic redshift bins. Blue curves indicate redshift distribution calibrated with DIR data and orange curves represent redshift distribution after iterative optimisation of cosmological and nuisance parameters. {\color{red} Todo: Plot as a pdf and maybe add the input data histogram}}
+%Fit results of a gaussian mixture with N components to the N(z) distribution in 5 tomographic redshift bins. Data is shown in blue and the resulting fit is shown in orange with shaded region indicating the 1$\sigma$ confidence interval. {\color{red} This is a redshift distribution before iterative optimisation. Need a plot after iterative optimisation. And probably put the covariance matrix next to it}}
 \label{fig:comb}
 \end{figure*}
 \begin{figure}
 \centering
 \includegraphics[scale=0.7]{plots/corr.png}
-\caption{Correlation matrix of the best-fit comb amplitudes.}
+\caption{Correlation matrix of best-fit comb amplitudes. {\color{red} move to the appendix?}}
 \label{fig:correlation_matrix}
 \end{figure}
-The best-fit model is illustrated in Fig. \ref{fig:comb} and the corresponding correlation matrix  is presented in Fig. \ref{fig:correlation_matrix}, showing the correlation between the amplitudes of different tomographic redshift bins, which can also be observed in the input data covariance matrix.  
+The best-fit model is illustrated as blue curve in Fig. \ref{fig:comb} with uncertainties derived from the diagonal elements of the correlation matrix of fit parameters. The full correlation matrix  is presented in Fig. \ref{fig:correlation_matrix}, showing the correlation between the amplitudes of different tomographic redshift bins, which can also be observed in the input data covariance matrix.  
 
 We proceed with a further calibration of the redshift distribution using the iterative fitting method of cosmological and nuisance parameters described in Sect. \ref{sec:calibration}. The fit result after each step for the three most interesting cosmological parameters $A_{IA}$, $\Omega_m$, and $S_8$ are reported in Table \ref{tab:iterative_calibration}. 
 \begin{table}
@@ -316,10 +316,10 @@ fiducial KV450 likelihood & $0.8656$  & $0.7708$ & $179.8831$\\
 \caption{Results of the iterative fitting of cosmological and nuisance parameters to the KV450 cosmic shear data and comparison to the fiducial KV450 likelihood. When optimising cosmological parameters we fit $\omega_{\rm cdm}$, $\omega_{\rm b}$, $A_{\rm s}$, $n_{\rm s}$, and $h$ as well as the nuisance parameters $A_{\rm IA}$, $A_{\rm bary}$, $\delta c$, and $A_{\rm c}$. When optimising nuisance parameters we vary the amplitudes of the gaussian comb. Results are shown for the two most interesting parameters, for which the cosmic shear likelihood has the largest constraining power. We find convergence after three iterations of the calibration, resulting in a better fit to the cosmic shear data compared to the fiducial analysis.}
 \label{tab:iterative_calibration}
 \end{table}
-The iterative optimisation method shows a fast convergence to the best-fit in the full parameter space of cosmological and nuisance parameters after only three iterations. This is expected since we start from an already well calibrated redshift distribution so that expect only small shifts of the redshift distribution. Comparing the best fit $\chi^2$ values we find that our model provides a better fit to the cosmic shear data than the fiducial KV450 model. This indicates that a linear shift of the mean of the redshift distribution indeed does not capture the full variance of the data and that it is beneficial to allow for a full shift of the redshift distribution when deriving constraints on cosmological parameters. We find a shift of the two most interesting parameters, for which the cosmic shear likelihood has the largest constraining power, $A_{\rm IA}$ and $S_8$, compared to the fiducial KV450 analysis. These shifts are further investigated in the following section, where we sample the weak lensing likelihood and derive marginalised posteriors of cosmological parameters. 
+The iterative optimisation method shows a fast convergence to the best-fit in the full parameter space of cosmological and nuisance parameters after only three iterations. This is expected since we start from an already well calibrated redshift distribution so that expect only small shifts of the redshift distribution. Comparing the best fit $\chi^2$ values we find that our model provides a better fit to the cosmic shear data than the fiducial KV450 model. This indicates that a linear shift of the mean of the redshift distribution indeed does not capture the full variance of the data and that it is beneficial to allow for a full shift of the redshift distribution when deriving constraints on cosmological parameters. We find a shift of the two most interesting parameters, for which the cosmic shear likelihood has the largest constraining power, $A_{\rm IA}$ and $S_8$, compared to the fiducial KV450 analysis. These shifts are further investigated in the following section, where we sample the weak lensing likelihood and derive marginalised posteriors of cosmological parameters. The resulting redshift distributions are illustrated as orange curves in Fig.\ref{fig:comb} together with the observed shift of the distributions.
 
 \subsection{Marginalisation over nuisance parameters} 
-Using the redshift distribution that were calibrated in the previous section we sample the weak lensing likelihood in cosmological parameter space with analytical marginalisation over the uncertainty on the amplitudes of the fitted redshift distribution. We implement the marginalised likelihood given in Eq. \ref{eq:marginal_likelihood} in the existing KV450 likelihood, which is publicly available in {\sc MontePython}. We choose priors on cosmological parameters and nuisance parameters equivalent to the ones in \cite{hildebrandt18}. Note that in contrast to the fiducial KV450 analysis we do not include linear shifts $\delta z_i$ of the mean redshift in each tomographic bin as nuisance parameters since the variance of the redshift distribution is covered by the uncertainties on the amplitudes of the comb model. Our choice of priors is reported in Table \ref{tab:priors}.
+Using the redshift distribution calibrated in the previous section we sample the weak lensing likelihood in cosmological parameter space with analytical marginalisation over the uncertainty on the amplitudes of the fitted redshift distribution. We implement the marginalised likelihood given in Eq. \ref{eq:marginal_likelihood} in the existing KV450 likelihood, which is publicly available in {\sc MontePython}. We choose priors on cosmological parameters and nuisance parameters equivalent to the ones in \cite{hildebrandt18}. Note that in contrast to the fiducial KV450 analysis we do not include linear shifts $\delta z_i$ of the mean redshift in each tomographic bin as nuisance parameters since the variance of the redshift distribution is already covered by the uncertainties on the amplitudes of the comb model. Our choice of priors is reported in Table \ref{tab:priors}.
 \begin{table}
 \label{tab:priors}
 \begin{tabular}{lll}
@@ -333,7 +333,7 @@ Scalar spectral index & $n_{\rm s}$ & $[0.7, 1.3]$ \\
 Hubble parameter & $h$ & $[0.64, 0.82]$ \\
 \hline
 IA amplitude & $A_{\rm IA}$ & $[-6, 6]$\\
-Baryon feedback amplitude & $B$ & $[2.00, 3.13]$\\
+Baryon feedback amplitude & $A_{\rm bary}$ & $[2.00, 3.13]$\\
 Constant $c$-term offset & $\delta c$ & $0.0000\pm0.0002$ \\
 2D $c$-term amplitude & $A_c$ & $1.01\pm0.13$\\
 \hline
@@ -341,9 +341,38 @@ Constant $c$-term offset & $\delta c$ & $0.0000\pm0.0002$ \\
 \caption{Model parameters and their priors for the KV450 cosmic shear analysis, adopted from \cite{hildebrandt18}. The first five lines are cosmological parameters while the remaining lines represent nuisance parameters. Brackets indicate top-hat priors while values with errors indicate Gaussian priors. Note that in contrast to \cite{hildebrandt18}, linear shifts of the mean of the redshifts distributions are excluded.}
 \end{table}
 Prior to the sampling of the marginalised likelihood we test whether we can reproduce the result of the fiducial KV450 analysis by sampling the likelihood with the comb model, but without applying the marginalisation over nuisance parameters. The results of this consistency test are discussed in Appendix \ref{ap:kv450_likelihood} and show that the two models are in excellent agreement. 
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{plots/AIA_vs_S8}
+\caption{Marginalised posteriors for $A_{\rm IA}$ and $S_8$. The blue contour present the results from the KV450 likelihood with a gaussian comb and analytical marginalisation over nuisance parameters, while the orange contours refer to the fiducial KV450 constraints. The dotted lines indicate the best-fit values from Table \ref{tab:iterative_calibration} for the KV450 likelihood with gaussian comb and the cross indicates the best-fit values for the fiducial KV450 likelihood.}
+\label{fig:AIA_vs_S8}
+\end{figure}
+
+Fig. \ref{fig:AIA_vs_S8} illustrates the results, comparing the KV450 likelihood with a gaussian comb and analytical marginalisation over nuisance parameters and the fiducial KV450 likelihood. We show marginalised posteriors and best-fit values for the two parameters that are fully constrained with KV450 data, $A_{\rm IA}$ and $S_8$. We find slight shifts of the posteriors towards smaller values of the intrinsic alignment amplitude and larger values of $S_8$. 
+
+The amplitude of intrinsic alignments however is not a cosmological parameter, but instead models a systematic effect in weak lensing surveys:
+The 2-point shear correlation function is not measured directly since it is contaminated by correlations between intrinsic ellipticities of neighbouring galaxies (II) and correlations between intrinsic ellipticities of foreground galaxies and background galaxies:
+\eq{
+\left\langle \xi_\pm \right\rangle = \xi_\pm + \xi_\pm^{\rm II} + \xi_\pm^{\rm GI}
+}
+In the present analysis these effects are modelled using a 'non-linear linear' model \citep{hirata04,bridle07,joachimi11}. The intrinsic alignment II and GI power spectra are obtained via
+\eqa{
+P_{\rm II}(k,z) &= F^2(z) P_\delta(k,z)\\
+P_{\rm GI}(k,z) &= F(z) P_\delta(k,z),
+}
+where $F(z)\propto A_{\rm IA}$. Thus, a shift of the redshift distribution can at least to some extent be counteracted by a shift of the intrinsic alignment amplitude, so that overall we find a good fit to the observed cosmic shear 2-point correlation function. This effect is a possible explanation for the observed shift of the contours in Fig. \ref{fig:AIA_vs_S8}, which nevertheless are in good agreement.
+
+Thus, we conclude that our method provides constraints on cosmological parameters which are similar to the ones from the fiducial KV450 analysis, while taking all photometric redshift uncertainties into account. Our model provides a slightly better fit of the redshift distribution to the cosmic shear data since the large number of model parameters allows the model to reflect small variations of the redshift distribution. However, changes in the redshift distribution can be correlated with variations of the intrinsic alignment amplitude and therefore a modelling of intrinsic alignments with high accuracy is required.  
 %--------------------------------------------------------------------
-\section{Conclusions}
+\section{Summary}
 \label{sec:discussion}
+In this paper, we developed a method to model photometric redshift distributions of galaxy samples with strong correlations  present between tomographic bins using a modified gaussian mixture model. We showed that photometric redshift uncertainties arising from the calibration of the redshift distribution can be propagated to the weak lensing likelihood. We applied an analytic marginalisation over the model parameters, which allows us to use a fairly complex model of the redshift distribution without an increase of the number of parameters on which the weak lensing likelihood is conditioned. Additionally, we developed an iterative fitting method of cosmological and nuisance parameters in order to constrain the redshift distribution with cosmic shear data.
+
+We applied these methods to the public KiDS+VIKING-450 (KV450) cosmic shear data. We fitted the modified gaussian mixture model to the fiducial KV450 redshift distributions in five tomographic bins that were calibrated with deep spectroscopic surveys and implemented the marginalisation method in the public KV450 likelihood code. We performed the iterative fitting and found fast convergence to the best-fit in the combined space of cosmological and nuisance parameters and a better overall fit to the data thanks to the larger flexibility of our redshift distribution model. Next, we sampled the weak lensing likelihood via MCMC using the redshift distribution that was calibrated in the previous step and derived constraints on cosmological parameters.
+
+We found that our model can fit rather complex redshift distribution, thanks to the number of model parameters which is a free parameter. Since we marginalise analytically over nuisance parameters this does not impact the number of parameters on which the weak lensing likelihood is conditioned and therefore allows MCMC sampling without an increase in runtime. Our model provides a better fit to the data compared to the fiducial KV450 likelihood, since the fiducial likelihood only allows a shift of the mean of the redshift distribution of each bin and thus requires a precalibrated redshift distribution that closely resembles the true underlying distribution. Therefore, given the large uncertainties of photometric redshift calibration methods in general, a complex model that can reflect the uncertainties is advantageous. 
+
+The marginalised posterior distributions of the remaining model parameters are in agreement with the fiducial KV450 analysis. However, we found slight shifts of the contours, which are strongest for the amplitude of intrinsic alignments, $A_{\rm IA}$. We suspect that these shifts might be caused by degeneracies between the redshift distribution amplitudes and the intrinsic alignment amplitude, so that a shift of the redshift distribution can be compensated by a shift of the intrinsic alignment amplitude. Thus, a calibration of the redshift distribution with cosmic shear data requires an accurate model of intrinsic alignments in order to get unbiased results.
   
 \begin{acknowledgements}
   
@@ -388,11 +417,11 @@ $N_{\rm data} = 80$&40&40&113&7.0\\
 \end{table}
 \section{KV450 likelihood sampling with comb model but without marginalisation}
 \label{ap:kv450_likelihood}
-In order to test if the fitted redshift distribution is capable of reproducing the results of the fiducial KV-450 analysis we sample the likelihood using the model to parametrise the redshift distribution, but without marginalisation over the uncertainty of nuisance parameters. To make a fair comparison of the two likelihoods we fix the nuisance parameters $\delta z_i$ of the KV-450 likelihood. Results of these fits are presented Table \ref{tab:consistency}, showing the constraints on cosmological and nuisance parameters. We find that constraints from both setups are fully consistent and therefore we conclude the the fitted redshift distribution can be used as an alternative to the fiducial redshift histograms.
+In order to test if the fitted redshift distribution is capable of reproducing the results of the fiducial KV-450 analysis we sample the likelihood using the model to parametrise the redshift distribution, but without marginalisation over the uncertainty of nuisance parameters. To be able to compare the two likelihoods we fix the nuisance parameters $\delta z_i$ of the KV-450 likelihood. Results of these fits are presented Table \ref{tab:consistency}, showing the constraints on cosmological and nuisance parameters. We find that constraints from both setups are fully consistent and therefore we conclude the the fitted redshift distribution can be used as an alternative to the fiducial redshift histograms.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{plots/Om_s8.png}
+\includegraphics[width=\linewidth]{plots/Om_s8.png}
 \caption{{\color{red} This is a caption}}
 \label{fig:Om_s8_consistency}
 \end{figure}
@@ -429,6 +458,16 @@ $\sigma_8        $ & $0.86^{+0.18}_{-0.20}      $& $0.87\pm 0.17      $\\
 \caption{{\color{red} This is a caption}}
 \label{tab:consistency}
 \end{table}
+\section{Correlation functions}
+Putting two plots here: 1) A comparison of best-fit correlation functions from fiducial and comb likelihood, 2) the difference of both best-fit curves. Interesting: the difference of best-fit curves is smallest in the second bin. The shift of the mean of the redshift distribuition after iterative calibration was largest in this bin.
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{plots/correlation_functions.pdf}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{plots/correlation_functions_delta.pdf}
+\end{figure}
 \end{appendix}
 %
 %
