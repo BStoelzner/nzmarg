@@ -48,24 +48,24 @@
 \newcommand{\refmark}[1]{\textbf{#1}}
 
 \begin{document} 
-\defcitealias{hildebrandt18}{H20}
 
-   \title{Weak lensing cosmology in the presence of redshift calibration uncertainty}
+   \title{Self-calibration and robust propagation of photometric redshift distribution uncertainties in weak gravitational lensing}
+   \titlerunning{Photometric redshift distribution uncertainties in weak lensing}
 
  %  \subtitle{}
 
    \author{B. St{\"o}lzner\inst{1},
    				B. Joachimi\inst{1},
             		A. Korn\inst{1},
-          \and
-          others
-          }
-
-   \institute{Department of Physics and Astronomy, University College London, Gower Street, London WC1E 6BT, UK\\
-              \email{b.joachimi@ucl.ac.uk}
-         \and
-             etc.
-             }
+          		\and
+          		A. H. Wright\inst{2}
+          		}
+   \authorrunning{St{\"o}lzner et. al.}
+   \institute{Department of Physics and Astronomy, University College London, Gower Street, London WC1E 6BT, UK\\ 
+   				\email{benjamin.stolzner.18@ucl.ac.uk}
+         		\and
+             		Ruhr University Bochum, Faculty of Physics and Astronomy, Astronomical Institute (AIRUB), German Centre for Cosmological Lensing, 44780 Bochum, Germany
+             		}
 
    \date{Received ; accepted }
 
@@ -206,6 +206,7 @@ The Gaussian log-likelihood is then given by
 }
 where the indices $\alpha$ and $\beta$ run over all unique combinations of tomographic redshift bins. The 2-point correlation function is analysed in $\theta$-bins that are denoted by $l$. The inverse covariance, which is assumed to be cosmology-independent is given by $\tens{Z}$ with elements $Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}$. We have defined
 \eq{
+\label{eq:Delta}
 \Delta_l^{(\alpha \beta)} \equiv d_l^{(\alpha \beta)} - \sum_{i,j=1}^{N_z} A_i^\alpha A_j^\beta\; x_\pm^{(ij)}(\theta_l)\;,
 }
 where $d_l$ denotes the element of the observed data vector in $\theta$-bin $l$ at angular scale $\theta_l$ and the indices $i$ and $j$ count over all possible combinations of components of the redshift distribution model. We note that all cosmology dependence is in the $x_\pm^{(ij)}(\theta)$.
@@ -272,7 +273,7 @@ Our analysis is based on the fiducial KV450 cosmic shear analysis presented in \
 
 Recently, self-organising maps (SOMs) were proposed as a method to mitigate systematic biases arising from the redshift calibration by assigning galaxies to groups based on their photometry \citep{buchs, wright_som}. This method allows one to constrain samples of galaxies such that they are fully represented by spectroscopic reference samples. It was recently applied to the KV450 \citep{wright_som_kv450} and KiDS-1000 \citep{hildebrandt20, asgari20} datasets. However, in these works the uncertainties on the redshift distributions are parameterised in terms of shifts of the mean of the redshift distributions with a prior that parameterises correlations between the redshift distributions of tomographic bins. This prior is inferred from simulations \citep{wright_som, hildebrandt20, vdBusch20}. A spatial bootstrapping was not performed, so that an estimate of the full variance of the redshift distribution is not available. In this work we therefore revert to the fiducial KV450 dataset for which such an estimation of the full variance of the redshift distribution is available and leave the application to more recent KiDS datasets for future work.
 
-In this work, we calibrate the redshift distribution by fitting the Gaussian comb model defined in Sect. \ref{sec:comb} to the redshift distribution histograms of \cite{hildebrandt18}. Additionally, we extend the KV450 likelihood code originally used in the fiducial analysis of \cite{hildebrandt18} by implementing the analytic marginalisation over nuisance parameters. The original likelihood is publicly available in the {\sc MontePython}\footnote{\url{https://github.com/brinckmann/montepython_public}} package \citep{Audren:2012wb, Brinckmann:2018cvx}. We sample the likelihood in the {\sc MultiNest} \footnote{\url{https://github.com/farhanferoz/MultiNest}} mode \citep{feroz09,feroz19} using the python wrapper {\sc PyMultiNest} \citep{buchner14}. The matter power spectrum is estimated with the public code {\sc Class}\footnote{\url{https://github.com/lesgourg/class_public}}\citep{blas11} with non-linear corrections from {\sc HMCode} \citep{mead15}. 
+In this work, we calibrate the redshift distribution by fitting the Gaussian comb model defined in Sect. \ref{sec:comb} to the redshift distribution histograms of \cite{hildebrandt18}. Additionally, we extend the KV450 likelihood code originally used in the fiducial analysis of \cite{hildebrandt18} by implementing the analytic marginalisation over nuisance parameters. The original likelihood is publicly available in the {\sc MontePython}\footnote{\url{https://github.com/brinckmann/montepython_public}} package \citep{Audren:2012wb, Brinckmann:2018cvx}. We sample the likelihood in the {\sc MultiNest} \footnote{\url{https://github.com/farhanferoz/MultiNest}} mode \citep{feroz09,feroz19} using the python wrapper {\sc PyMultiNest} \footnote{\url{https://github.com/JohannesBuchner/PyMultiNest}} \citep{buchner14}. The matter power spectrum is estimated with the public code {\sc Class}\footnote{\url{https://github.com/lesgourg/class_public}}\citep{blas11} with non-linear corrections from {\sc HMCode} \citep{mead15}. 
 
 We adopt the cosmological model from \cite{hildebrandt18}, that is a flat $\Lambda$CDM cosmology with five parameters: $\omega_{\rm CDM}$, $\omega_{\rm b}$, $A_{\rm s}$, $n_{\rm s}$, and $h$. Additionally, the model includes four nuisance parameters that account for intrinsic alignments ($A_{\rm IA}$), baryon feedback ($A_{\rm bary}$), and additive shear bias ($\delta c$ and $A_c$). Note that in contrast to the fiducial KV450 analysis we do not include linear shifts $\delta z_i$ of the mean redshift in each tomographic bin as nuisance parameters since variations of the redshift distributions are taken into account by the amplitudes of the Gaussian comb model with analytic marginalisation over the corresponding uncertainties. Our choices of priors for the nine cosmological and nuisance parameters are identical to the ones used in \cite{hildebrandt18} and is reported in Table \ref{tab:priors}. Finally, we adopt the cosmic shear data from \cite{hildebrandt18}, which consists of measurements of the 2-point shear correlation functions between the five tomographic redshift bins and the corresponding analytic covariance matrix.
 \begin{table}
@@ -381,7 +382,7 @@ We applied these methods to the public KiDS+VIKING-450 (KV450) cosmic shear data
 
 We found that our model can fit complex redshift distributions, thanks to the tunable number of model parameters. Since we marginalise analytically over nuisance parameters, the large number of redshift nuisance parameters does not increase the runtime of the posterior sampling. Our model provides a slightly better fit to the data compared to the fiducial KV450 likelihood, since the fiducial likelihood only allows a shift of the mean of the redshift distribution of each bin and thus requires a precalibrated redshift distribution that closely resembles the true underlying distribution. Given the large uncertainties of photometric redshift calibration methods in general, a complex model that can reflect the uncertainties is advantageous. Therefore, with decreasing statistical uncertainties and increasing survey data, the method presented in this paper is particularly useful for upcoming surveys, where we expect higher order moments of the redshift distribution uncertainty to become increasingly important.
 
-The marginalised posterior distributions of the remaining model parameters are in agreement with the fiducial KV450 analysis. However, we found slight shifts of the posterior constraints on the model parameters, which are strongest for the amplitude of intrinsic alignments, $A_{\rm IA}$. We suspect that these shifts are caused by degeneracies between the redshift distribution amplitudes and the intrinsic alignment amplitude, so that a shift of the redshift distribution can be compensated by a shift of the intrinsic alignment amplitude. This mitigation of systematic effects by the intrinsic alignment parameter is likely to be the reason for the relatively large shift of the median of the redshift distribution in the second redshift bin that we found after the iterative calibration of model parameters. Thus, to get unbiased constraints on the redshift distribution, we require a tighter constraint on the intrinsic alignment parameter through external constraints. This will ensure that systematic effects are not absorbed by the intrinsic alignment parameter. This result is consistent with earlier works such as \cite{wright_som_kv450}, \cite{hildebrandt18}, \cite{fortuna20}, \cite{vanUitert18}, and \cite{Efstathiou18} which also found discrepant values of the intrinsic alignment amplitude and studied systematic effects on intrinsic alignments. Thus, this work further emphasises the necessity of an accurate modelling of intrinsic alignments.
+The marginalised posterior distributions of the remaining model parameters are in agreement with the fiducial KV450 analysis. However, we found slight shifts of the posterior constraints on the model parameters, which are strongest for the amplitude of intrinsic alignments, $A_{\rm IA}$. We suspect that these shifts are caused by degeneracies between the redshift distribution amplitudes and the intrinsic alignment amplitude, so that a shift of the redshift distribution can be compensated by a shift of the intrinsic alignment amplitude. This mitigation of systematic effects by the intrinsic alignment parameter is likely to be the reason for the relatively large shift of the median of the redshift distribution in the second redshift bin that we found after the iterative calibration of model parameters. Thus, to get unbiased constraints on the redshift distribution, we require a tighter prior on the intrinsic alignment parameter through external constraints. This will ensure that systematic effects are not absorbed by the intrinsic alignment parameter. This result is consistent with earlier works such as \cite{wright_som_kv450}, \cite{hildebrandt18}, \cite{fortuna20}, \cite{vanUitert18}, and \cite{Efstathiou18} which also found discrepant values of the intrinsic alignment amplitude and studied systematic effects on intrinsic alignments. Thus, this work further emphasises the necessity of an accurate modelling of intrinsic alignments.
 
 While finalising this work, \cite{Hadzhiyska20} put forward a work on analytic marginalization of redshift distribution uncertainties applied to galaxy clustering measurements from the Hyper Suprime-Cam first data release. Their marginalisation method results in a modified data covariance matrix that downweights modes of the data vector that are sensitive to variations of the redshift distribution. This approach also allows them to take the full shape of the redshift distribution into account. However, since this method directly modifies the data covariance matrix, it is unclear if this method allows for a self-calibration of the redshift distribution with cosmic shear measurements. 
 
@@ -389,8 +390,9 @@ The method presented in this paper is not only applicable to cosmic shear analys
 \begin{acknowledgements}
 This work was partially enabled by funding from the UCL Cosmoparticle Initiative.
 BJ acknowledges the kind hospitality of the Aspen Center for Physics, supported by National Science Foundation grant PHY-1607611, where this work was initiated.
+AHW is supported by an European Research Council Consolidator Grant (No. 770935).
 We acknowledge the use of data from the MICE simulations, publicly available at http://www.ice.cat/mice.
-Based on data products from observations made with ESO Telescopes at the La Silla Paranal Observatory under programme IDs 177.A-3016, 177.A-3017, 177.A-3018, 179.A-2004, and 298.A-5015. The authorship list is given in three groups: the lead authors, followed by two alphabetical groups. The first alphabetical group includes those who are key con- tributors to both the scientific analysis and the data products. The second group covers those who have either made a significant contribution to the data products or to the scientific analysis.
+Based on data products from observations made with ESO Telescopes at the La Silla Paranal Observatory under programme IDs 177.A-3016, 177.A-3017, 177.A-3018, 179.A-2004, and 298.A-5015.
 \end{acknowledgements}
 
 
@@ -404,28 +406,23 @@ Based on data products from observations made with ESO Telescopes at the La Sill
 In this Appendix we provide the analytic expressions for the vector of derivatives of the log-likelihood with respect to the nuisance parameters $a_i^\alpha$ of the redshift distribution and the Hessian matrix of second derivatives with respect to the nuisance parameters. These quantities enter the calculation of the log-likelihood marginalised over the nuisance parameters described in Sect. \ref{sec:marginalisation}.
 For the specific case of marginalising over the redshift distribution nuisance parameters the vector $\boldsymbol{\cal L^\prime}$ has elements
 \eqa{
-\frac{\partial {\cal L}}{\partial a_m^\mu} &= \sum_{l,l',\alpha,\beta,\gamma,\delta}  \left\{ \frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \Delta_{l'}^{(\gamma \delta)} \right. \\ \nn
-& \hspace*{1cm} + \left. \Delta_l^{(\alpha \beta)}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \frac{\partial \Delta_{l'}^{(\gamma \delta)}}{\partial a_m^\mu} \right\}\;,
+\frac{\partial {\cal L}}{\partial a_m^\mu} &= \sum_{l,l',\alpha,\beta,\alpha',\beta'}  \left\{ \frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}\; \Delta_{l'}^{(\alpha' \beta')} \right. \\ \nn
+& \hspace*{1.5cm} + \left. \Delta_l^{(\alpha \beta)}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\delta)}\; \frac{\partial \Delta_{l'}^{(\alpha' \beta')}}{\partial a_m^\mu} \right\}\;,
 }
 with
 \eq{
 \frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu} = - A_m^\mu \sum_i x_\pm^{(im)}(\theta_l) \br{\delta_{\alpha \mu}\, A_i^\beta + \delta_{\beta \mu}\, A_i^\alpha}\;,
 }
-where $\delta_{\alpha \beta}$ denotes the Kronecker delta symbol. The indices $\alpha$ and $\beta$ run over all unique combinations of tomographic redshift bins. The 2-point shear correlation function of two Gaussian comb components $i$ and $j$ in $\theta$-bin $l$ is denoted by $x_\pm^{(ij)}(\theta_l)$ and the inverse data covariance is given by $\tens{Z}$. 
-%\eq{
-%\Delta_l^{(\alpha \beta)} \equiv d_l^{(\alpha \beta)} - \sum_{i,j=1}^{N_z} A_i^\alpha A_j^\beta\; x_\pm^{(ij)}(\theta_l)\;,
-%}
-%where $d_l$ denotes the element of the observed data vector in $\theta$-bin $l$ at angular scale $\theta_l$ and the indices $i$ and $j$ count over all possible combinations of components of the redshift distribution model.
-
+where $\delta_{\alpha \beta}$ denotes the Kronecker delta symbol. The indices $\alpha$ and $\beta$ run over all unique combinations of tomographic redshift bins. The 2-point shear correlation function of two Gaussian comb components $i$ and $j$ in $\theta$-bin $l$ is denoted by $x_\pm^{(ij)}(\theta_l)$ and the inverse data covariance is given by $\tens{Z}$. The difference between the observed and predicted signals, as defined in Eq. \eqref{eq:Delta}, is denoted by $\Delta_l^{\alpha\beta}$.
 The elements of the Hessian matrix ${\cal L^{\prime\prime}}$ read
 \eqa{
 \label{eq:hessian}
-\frac{\partial^2 {\cal L}}{\partial a_m^\mu\, \partial a_n^\nu} &= \sum_{l,l',\alpha,\beta,\gamma,\delta} 
+\frac{\partial^2 {\cal L}}{\partial a_m^\mu\, \partial a_n^\nu} &= \sum_{l,l',\alpha,\beta,\alpha',\beta'} 
 \left\{ 
-\frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \frac{\partial \Delta_{l'}^{(\gamma \delta)}}{\partial a_n^\nu}  \right. \\ \nn
-& \!\!\!\! + \frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_n^\nu}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \frac{\partial \Delta_{l'}^{(\gamma \delta)}}{\partial a_m^\mu} 
-+ \frac{\partial^2 \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu\, \partial a_n^\nu}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \Delta_{l'}^{(\gamma \delta)} \\ \nn
-& \!\!\!\! \left. + \Delta_l^{(\alpha \beta)}\; Z_{(l,\alpha,\beta) \,  (l',\gamma,\delta)}\; \frac{\partial^2 \Delta_{l'}^{(\gamma \delta)}}{\partial a_m^\mu\, \partial a_n^\nu}
+\frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}\; \frac{\partial \Delta_{l'}^{(\alpha' \beta')}}{\partial a_n^\nu}  \right. \\ \nn
+&\hspace*{1.5cm}+ \frac{\partial \Delta_l^{(\alpha \beta)}}{\partial a_n^\nu}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}\; \frac{\partial \Delta_{l'}^{(\alpha' \beta')}}{\partial a_m^\mu} \\ \nn
+&\hspace*{1.5cm}+ \frac{\partial^2 \Delta_l^{(\alpha \beta)}}{\partial a_m^\mu\, \partial a_n^\nu}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}\; \Delta_{l'}^{(\alpha' \beta')} \\ \nn
+&\hspace*{1.5cm}\left. + \Delta_l^{(\alpha \beta)}\; Z_{(l,\alpha,\beta) \,  (l',\alpha',\beta')}\; \frac{\partial^2 \Delta_{l'}^{(\alpha' \beta')}}{\partial a_m^\mu\, \partial a_n^\nu}
 \right\}\;,
 }
 with 
@@ -450,11 +447,11 @@ Fig. \ref{fig:120vs240} shows a comparison of two fits with 30 Gaussian componen
 
 By visually inspecting the fitted redshift distributions we observe some deviations between the two curves, which are however already present in the input data. Although the two histograms are supposed to represent the same source redshift distribution, they show some fluctuations especially in the peaks of the distributions, which have an impact on the fitted curves. More importantly, however, we find goodness of fit values of $\chi^2/{\rm d.o.f.} = 90$ and $\chi^2/{\rm d.o.f.} = 91$, respectively. This indicates a bad fit of the model to the data regardless of which data histogram is used. To find the cause of the bad fit we repeat the fit using only the diagonal elements of the covariance matrix, which reduces the goodness of fit values to $\chi^2/{\rm d.o.f.} = 9.4$ and $\chi^2/{\rm d.o.f.} = 5.6$. This test shows that the bad fit is to a great extent caused by the off-diagonal elements of the covariance matrix. However, even excluding the off-diagonal elements does not lead to an acceptable goodness of fit value. We suspect that the uncertainties on the precalibrated redshift distributions are underestimated which would explain the discrepancies between the blue and orange data points shown in Fig. \ref{fig:120vs240}.
 
-Empirically, we find that rescaling the covariance $C_{ij}$ between histogram bins by an additive and multiplicative factor via
+Empirically, we find that rescaling the square root of the covariance $C_{ij}$ between histogram bins by an additive and multiplicative factor via
 \eq{
 C^\prime_{ij} = \left(2\sqrt{C_{ij}}+0.01\delta_{ij}\right)^2
 }
-leads to a reduced $\chi^2$ of about 1.6. With this rescaling, the widths of the posterior distributions of the median redshift for both the redshift histograms and the Gaussian comb, shown in Fig. \ref{fig:comb}, inflate approximately by the same factor. Therefore, we assume that a potential underestimation of the error bars impacts the fiducial analysis and the one presented in this paper in the same way. We stress that the quality of the fit does not have a significant impact on the main analysis of this paper, as shown in Appendix \ref{sec:MICE}, and leave a further investigation of the precalibrated redshift distributions for future work.
+leads to a reduced $\chi^2$ of about 1.6. With this rescaling, the widths of the posterior distributions of the median redshift for both the redshift histograms and the Gaussian comb, shown in Fig. \ref{fig:comb}, inflate approximately by the same factor. Therefore, we assume that a potential underestimation of the error bars impacts the fiducial analysis and the one presented in this paper in the same way. We stress that the quality of the fit does not have a significant impact on the main analysis of this paper, as shown in Appendix \ref{sec:MICE}, and leave a further investigation of an improved uncertainty quantification for the precalibrated redshift distributions for future work.
 \subsection{Redshift distribution calibration with simulations}
 \label{sec:MICE}
 Since in Appendix \ref{ap:calibration_input} we found that the Gaussian comb model provides a bad fit to the actual data, which is likely caused by an underestimation of the errorbars, we test our calibration method with simulations. We use redshift distributions that are calibrated with the fiducial DIR method on simulated mock catalogues \citep{vdBusch20} based on the MICE simulation \citep{Mice1, Mice2, Mice3, carretero, hoffmann}. Analogous to Appendix \ref{ap:calibration_input} we compare two types of data histograms with bin widths of $\Delta z = 0.05$ and $\Delta z = 0.025$. Fig. \ref{fig:MICE} shows a comparison of the two fits with 30 Gaussian components where blue lines represent a fit to the histograms with bin width $\Delta z = 0.05$ and orange lines represent a fit to the histograms with bin width $\Delta z = 0.025$. 
@@ -506,6 +503,7 @@ $A_c             $ & $1.03\pm 0.12              $& $1.02\pm 0.12              $\
 $\Omega_{\rm m}    $ & $0.242^{+0.052}_{-0.11}    $& $0.242^{+0.055}_{-0.11}    $\\
 
 $\sigma_8        $ & $0.86^{+0.18}_{-0.20}      $& $0.87\pm 0.17      $\\
+$S_8$		& $0.746_{-0.028}^{+0.029}$&$0.748_{-0.03}^{+0.029}$\\
 \hline
 \end{tabular}
 \tablefoot{Reported are the mean posterior values and 68\% confidence intervals. The first five lines are cosmological parameters while the remaining lines represent nuisance parameters.}
